@@ -1,11 +1,11 @@
 package App;
 
 import java.io.DataOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+
+import javax.net.ssl.SSLSocketFactory;
 
 import Modelo.Edificio;
 
@@ -20,7 +20,7 @@ public class Start {
 		do {
 			System.out.println("Seleccione una opción: ");
 			System.out.println("1. Registrar");
-			System.out.println("2. Comprobar estado del edificio:");
+			System.out.println("2. Borrar edificio:");
 			System.out.println("3. Comprobar estado de los edificios:");
 			System.out.println("4. Salir.");
 			iRespuesta = sc.nextInt();
@@ -57,7 +57,9 @@ public class Start {
 			case 3:
 					Edificio Edificio;
 					try {
-						Socket scSocket = new Socket("127.0.0.1", 8888);
+						
+						SSLSocketFactory clientFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+						Socket scSocket = clientFactory.createSocket("192.168.30.124", 8888);
 						ObjectInputStream inputStream = new ObjectInputStream(scSocket.getInputStream());
 						DataOutputStream outputStream= new DataOutputStream(scSocket.getOutputStream());
 						String sMensaje ="PREGUNTANDO AL SERVIDOR";
